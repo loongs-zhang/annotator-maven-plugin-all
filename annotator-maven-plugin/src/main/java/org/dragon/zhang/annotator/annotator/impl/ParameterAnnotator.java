@@ -89,7 +89,7 @@ public class ParameterAnnotator implements Annotator {
                     String[] strings = tagValue.split(" ");
                     tagName = strings[0];
                     tagValue = strings[2];
-                    map.put(Annotator.NAME_KEY, tagName);
+                    map.put(Annotator.PARAM_NAME_KEY, tagName);
                     map.put(Annotator.DESCRIPTION_KEY, tagValue);
                 }
             }

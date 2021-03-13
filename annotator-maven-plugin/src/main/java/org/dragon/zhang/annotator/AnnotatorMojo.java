@@ -14,6 +14,7 @@ import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.component.annotations.Component;
 import org.codehaus.plexus.component.annotations.Requirement;
 import org.codehaus.plexus.logging.Logger;
+import org.dragon.zhang.annotator.annotator.Annotator;
 import org.dragon.zhang.annotator.annotator.impl.ClassAnnotator;
 import org.dragon.zhang.annotator.annotator.impl.FieldAnnotator;
 import org.dragon.zhang.annotator.annotator.impl.MethodAnnotator;
@@ -28,6 +29,8 @@ import java.lang.annotation.ElementType;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -69,25 +72,29 @@ public class AnnotatorMojo extends AbstractMojo {
             config.put(type, set);
         }
         log.info("configs->" + JSON.toJSONString(config));
+        List<Annotator> annotators = getSupportedAnnotators();
         for (File javaFile : getJavaFiles(sourceDirectory)) {
             try {
                 JavaClassSource source = Roaster.parse(JavaClassSource.class, javaFile);
-                ClassAnnotator classAnnotator = new ClassAnnotator(this.log);
-                FieldAnnotator fieldAnnotator = new FieldAnnotator(this.log);
-                MethodAnnotator methodAnnotator = new MethodAnnotator(this.log);
-                ParameterAnnotator parameterAnnotator = new ParameterAnnotator(this.log);
-
                 DynamicType.Builder<?> builder = new ByteBuddy().redefine(Class.forName(source.getQualifiedName()));
-                builder = classAnnotator.annotate(builder, config.get(classAnnotator.annotateType()), source);
-                builder = fieldAnnotator.annotate(builder, config.get(fieldAnnotator.annotateType()), source);
-                builder = methodAnnotator.annotate(builder, config.get(methodAnnotator.annotateType()), source);
-                builder = parameterAnnotator.annotate(builder, config.get(parameterAnnotator.annotateType()), source);
+                for (Annotator annotator : annotators) {
+                    builder = annotator.annotate(builder, config.get(annotator.annotateType()), source);
+                }
                 builder.make().saveIn(new File(outputDirectory));
             } catch (Throwable t) {
                 log.error(t.getMessage(), t);
             }
         }
         log.info("annotator-maven-plugin finished !!!");
+    }
+
+    protected List<Annotator> getSupportedAnnotators() {
+        List<Annotator> annotators = new LinkedList<>();
+        annotators.add(new ClassAnnotator(this.log));
+        annotators.add(new FieldAnnotator(this.log));
+        annotators.add(new MethodAnnotator(this.log));
+        annotators.add(new ParameterAnnotator(this.log));
+        return annotators;
     }
 
     public Set<File> getJavaFiles(String rootPath) {

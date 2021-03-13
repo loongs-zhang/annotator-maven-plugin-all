@@ -17,7 +17,7 @@ public interface Annotator {
 
     String PARAM_TAG = "@param";
 
-    String NAME_KEY = "name";
+    String PARAM_NAME_KEY = "paramName";
 
     /**
      * 打注解
