@@ -39,6 +39,9 @@ public class JavadocMapping {
     private Map<String, String> mapping;
 
     public String getCommentKey(String key) {
+        if (null == mapping) {
+            return null;
+        }
         return mapping.get(key);
     }
 
