@@ -1,6 +1,7 @@
 package org.dragon.zhang.annotator;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.DynamicType;
 import org.apache.maven.model.building.ModelBuilder;
@@ -23,6 +24,7 @@ import org.dragon.zhang.annotator.model.AnnotatorConfig;
 import org.dragon.zhang.annotator.model.JavadocMapping;
 import org.jboss.forge.roaster.Roaster;
 import org.jboss.forge.roaster.model.source.JavaClassSource;
+import org.springframework.util.CollectionUtils;
 
 import java.io.File;
 import java.lang.annotation.ElementType;
@@ -43,16 +45,16 @@ import java.util.Set;
 public class AnnotatorMojo extends AbstractMojo {
 
     @Requirement
-    private Logger log;
+    protected Logger log;
 
     @Parameter(defaultValue = "${project}", readonly = true)
-    private MavenProject project;
+    protected MavenProject project;
 
     /**
      * 匹配的类型需要打什么注解
      */
     @Parameter(property = "configs", required = true)
-    private Set<AnnotatorConfig> configs;
+    protected Set<AnnotatorConfig> configs;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -61,6 +63,10 @@ public class AnnotatorMojo extends AbstractMojo {
         log.info("sourceDirectory->" + sourceDirectory);
         String outputDirectory = project.getBuild().getOutputDirectory();
         log.info("outputDirectory->" + outputDirectory);
+        if (CollectionUtils.isEmpty(configs)) {
+            log.error("configs is empty !");
+            return;
+        }
         Map<ElementType, Set<JavadocMapping>> config = new HashMap<>(16);
         for (AnnotatorConfig annotatorConfig : configs) {
             ElementType type = annotatorConfig.getAnnotateType();
@@ -71,7 +77,8 @@ public class AnnotatorMojo extends AbstractMojo {
             set.addAll(annotatorConfig.getJavadocMappings());
             config.put(type, set);
         }
-        log.info("configs->" + JSON.toJSONString(config));
+        log.info("configs->" + JSON.toJSONString(config, SerializerFeature.PrettyFormat,
+                SerializerFeature.WriteMapNullValue, SerializerFeature.WriteDateUseDateFormat));
         List<Annotator> annotators = getSupportedAnnotators();
         for (File javaFile : getJavaFiles(sourceDirectory)) {
             try {

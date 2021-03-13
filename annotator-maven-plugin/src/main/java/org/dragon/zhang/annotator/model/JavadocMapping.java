@@ -1,6 +1,9 @@
 package org.dragon.zhang.annotator.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Map;
 import java.util.Set;
@@ -10,6 +13,9 @@ import java.util.Set;
  * @date 2021/03/06
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class JavadocMapping {
 
     /**

@@ -1,6 +1,9 @@
 package org.dragon.zhang.annotator.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.lang.annotation.ElementType;
 import java.util.Objects;
@@ -11,6 +14,9 @@ import java.util.Set;
  * @date 2021/03/12
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AnnotatorConfig {
 
     /**
