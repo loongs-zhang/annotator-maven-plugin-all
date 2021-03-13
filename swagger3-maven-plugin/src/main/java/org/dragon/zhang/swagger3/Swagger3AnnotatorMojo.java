@@ -28,14 +28,17 @@ public class Swagger3AnnotatorMojo extends AnnotatorMojo {
             log.warn("you have not configured it, it will be configured for you automatically...");
             super.configs = new LinkedHashSet<>();
             //打在类上的注解
-            Map<String, String> tagMapping = new HashMap<>();
-            tagMapping.put("name", "description");
+            Map<String, String> apiMapping = new HashMap<>();
+            apiMapping.put("tags", "description");
+            Map<String, Object> apiDefaultValues = new HashMap<>();
+            apiDefaultValues.put("protocols", "http,https");
             super.configs.add(AnnotatorConfig.builder()
                     .annotateType(ElementType.TYPE)
                     .javadocMappings(Sets.newHashSet(JavadocMapping.builder()
                             .conditions(Sets.newHashSet("org.springframework.stereotype.Controller"))
-                            .annotationClassName("io.swagger.v3.oas.annotations.tags.Tag")
-                            .mapping(tagMapping)
+                            .annotationClassName("io.swagger.annotations.Api")
+                            .mapping(apiMapping)
+                            .defaultValues(apiDefaultValues)
                             .build()))
                     .build());
 
