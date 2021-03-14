@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.dragon.zhang</groupId>
+    <groupId>com.github.dragon-zhang.annotator-maven-plugin-all</groupId>
     <artifactId>annotator-maven-plugin-all</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
@@ -26,17 +26,17 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.dragon.zhang</groupId>
+                <groupId>com.github.dragon-zhang.annotator-maven-plugin-all</groupId>
                 <artifactId>annotator-maven-plugin</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
-                <groupId>org.dragon.zhang</groupId>
+                <groupId>com.github.dragon-zhang.annotator-maven-plugin-all</groupId>
                 <artifactId>swagger2-maven-plugin</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
-                <groupId>org.dragon.zhang</groupId>
+                <groupId>com.github.dragon-zhang.annotator-maven-plugin-all</groupId>
                 <artifactId>swagger3-maven-plugin</artifactId>
                 <version>1.0.0</version>
             </dependency>
