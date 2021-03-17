@@ -143,4 +143,6 @@ public class TestController implements BeanNameAware {
 }
 ```
 
-For more details, see [annotator-maven-plugin-demos](https://github.com/dragon-zhang/annotator-maven-plugin-demos).
+# How to use it?
+
+For more examples, see [annotator-maven-plugin-demos](https://github.com/dragon-zhang/annotator-maven-plugin-demos).
