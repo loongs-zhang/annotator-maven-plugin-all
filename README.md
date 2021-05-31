@@ -45,7 +45,7 @@ public class TestController implements BeanNameAware {
     }
 }
 ```
-After use `annotator-maven-plugin`, we can generate bytecode below with `mvn clean install` command:
+`No need` to add `swagger annotations` on our code, but we can generate bytecode below with using `annotator-maven-plugin` and `mvn clean compile` command:
 ```java
 @RestController
 @Api(
@@ -143,4 +143,6 @@ public class TestController implements BeanNameAware {
 }
 ```
 
-For more details, see [annotator-maven-plugin-demos](https://github.com/dragon-zhang/annotator-maven-plugin-demos).
+# How to use it?
+
+For more examples, see [annotator-maven-plugin-demos](https://github.com/dragon-zhang/annotator-maven-plugin-demos).
