@@ -5,6 +5,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.dragon.zhang.annotator.AnnotatorMojo;
 import org.dragon.zhang.annotator.model.AnnotatorConfig;
 import org.dragon.zhang.annotator.model.JavadocMapping;
@@ -19,7 +20,13 @@ import java.util.Map;
  * @author zhangzicheng
  * @date 2021/03/13
  */
-@Mojo(name = "swagger", defaultPhase = LifecyclePhase.COMPILE)
+@Mojo(
+        name = "swagger",
+        requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME,
+        defaultPhase = LifecyclePhase.COMPILE,
+        threadSafe = true,
+        configurator = "include-project-dependencies"
+)
 public class Swagger3AnnotatorMojo extends AnnotatorMojo {
 
     @Override
